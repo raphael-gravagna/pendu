@@ -87,7 +87,7 @@ function getCurrentWord(){
     if(!isset($_SESSION["word"]) && empty($_SESSION["word"])){
         $key = array_rand($words);
         $_SESSION["word"] = $words[$key];
-        //var_dump($words[$key]);
+        var_dump($words[$key]);
     }
     return $_SESSION["word"];
     
@@ -218,6 +218,7 @@ if(isset($_GET['kp'])){
                     <p style="color: darkgreen; font-size: 25px;">Vous avez gagné, Félicitation </p>
                 <?php elseif(!$WON  && gameComplete()): ?>
                     <p style="color: darkred; font-size: 25px;">Vous avez Perdu, CHEH </p>
+                    <p>Le Mot à trouver était : <?php echo $_SESSION['word'];?></p>
                 <?php endif;?>
             </div>
             
@@ -233,9 +234,22 @@ if(isset($_GET['kp'])){
                             if ($i % 7 == 0 && $i>0) {
                                echo '<br>';
                             }
-                            
                         }
+                        
+                        if(isset($currentPressedKey)){
+                            $_SESSION["usedletters"] .= $currentPressedKey ;
+                        }
+                        
+
+                        // while ($WON = false) {
+                        //     $i = 0;
+                        //     $usedLetters[$i] = $currentPressedKey;
+                        //     $i++;
+                        //     var_dump($usedLetters) ;
+                        // }
                     ?>
+                    <br><br>
+                    <?php echo "Lettres utilisées : ". $_SESSION["usedletters"];?>
                     <br><br>
                     <!-- Restart game button -->
                     <button type="submit" name="start">Restart Game</button>
@@ -256,6 +270,7 @@ if(isset($_GET['kp'])){
                     <?php endif;?>
                 <?php endfor;?>
             </div>
+            <a href="admin.php">Ajouter un Mot</a>
             
         </div>
         
